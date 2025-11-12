@@ -1,12 +1,15 @@
 {
-  "name": "cricet-hub-deployed-2-trial",
+  "name": "cricet-hub-deployed",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://crickethub.co.in", 
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "cp dist/index.html dist/404.html && gh-pages -d dist"
   },
   "dependencies": {
     "react-router-dom": "6.22.3",
@@ -16,6 +19,7 @@
     "@types/node": "^22.14.0",
     "@vitejs/plugin-react": "^5.0.0",
     "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "gh-pages": "^6.1.1"
   }
 }
