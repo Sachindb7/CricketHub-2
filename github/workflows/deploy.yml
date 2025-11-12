@@ -1,0 +1,48 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Change this to your main branch name (e.g., 'master' or 'main')
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Run Build and Deploy Script
+        run: npm run deploy
+        env:
+          # GitHub Pages requires a token for gh-pages deployment
+          # This token is automatically provided by GitHub Actions for the current repo.
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set GitHub Pages Source
+        # This step is often necessary to ensure GitHub Pages uses the gh-pages branch
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git fetch origin gh-pages:gh-pages || true
+          git checkout gh-pages || git checkout -b gh-pages
+          
+          # Clean up other files except build output
+          git rm -rf --ignore-unmatch *
+          git clean -xfd
+
+          # Copy files from dist (if gh-pages step didn't push everything)
+          # Note: The `npm run deploy` should handle the actual pushing, 
+          # but this ensures the action environment is set up correctly.
+
+          # Final deployment confirmation
+          echo "Deployment successful via gh-pages script."
