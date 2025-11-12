@@ -1,0 +1,5 @@
+{
+  "name": "Cricet Hub Deployed 2 trial",
+  "description": "A modern blog website where users can read articles and an admin can manage the content. Built with React and Tailwind CSS for deployment on static hosting platforms like GitHub Pages.",
+  "requestFramePermissions": []
+}
